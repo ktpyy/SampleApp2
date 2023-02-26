@@ -6,35 +6,42 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 class MicrowaveOven {
     
     var selectedWatt: Int? = nil
+    var timerSeconds: Int? = nil
+    
+    var timer: Timer?
+    var limit: Int = 0
     
     let watt_300 = 300
     let watt_500 = 500
     let watt_800 = 800
     
-    var timerSeconds: Int? = nil
-    
-    var timer: Timer?
-    var count: Int = 30
-    var limit: Int = 0
-    
-    func setWatt(watt: Int) {}
-    
-    func start() {
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(setTime), userInfo: nil, repeats: true)
+    func setWatt(watt: Int) {
+        selectedWatt = watt
     }
     
-    @objc func setTime(time: Int) {
-        count -= 1
-        print("残り\(count)秒です")
+    func setTime(time: Int) {
+        timerSeconds = time
+    }
+    
+    
+    func start() {
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(countup), userInfo: nil, repeats: true)
+    }
+    
+    @objc func countup() {
+        timerSeconds! -= 1
+        print("残り\(timerSeconds!)秒です")
         
-        if limit >= count {
-            print("で秒温めました。")
+        if limit >= timerSeconds! {
+            print("\(selectedWatt!)Wで\(timerSeconds!)秒温めました。")
             timer?.invalidate()
         }
     }
 }
 
 let oven = MicrowaveOven()
-oven.setWatt(watt: )
-oven.setTime(time: )
+oven.setWatt(watt: oven.watt_800)
+oven.setTime(time: 5)
 oven.start()
+
+
