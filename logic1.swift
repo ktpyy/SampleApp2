@@ -7,6 +7,7 @@ class MicrowaveOven {
     
     var selectedWatt: Int? = nil
     var timerSeconds: Int? = nil
+    var count: Int? = nil
     
     var timer: Timer?
     var limit: Int = 0
@@ -21,6 +22,7 @@ class MicrowaveOven {
     
     func setTime(time: Int) {
         timerSeconds = time
+        count = time
     }
     
     
@@ -33,7 +35,7 @@ class MicrowaveOven {
         print("残り\(timerSeconds!)秒です")
         
         if limit >= timerSeconds! {
-            print("\(selectedWatt!)Wで\(timerSeconds!)秒温めました。")
+            print("\(selectedWatt!)Wで\(count!)秒温めました。")
             timer?.invalidate()
         }
     }
@@ -41,7 +43,8 @@ class MicrowaveOven {
 
 let oven = MicrowaveOven()
 oven.setWatt(watt: oven.watt_800)
-oven.setTime(time: 5)
+oven.setTime(time: 30)
 oven.start()
+
 
 
