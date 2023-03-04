@@ -28,6 +28,16 @@ class MicrowaveOven {
     }
     
     
+    var isOpen = false {
+        didSet {
+            selectedWatt = nil
+            count = nil
+            timerSeconds = nil
+            timer?.invalidate()
+            print("強制終了しました。")
+        }
+    }
+    
     func start() {
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(countup), userInfo: nil, repeats: true)
     }
@@ -44,8 +54,8 @@ class MicrowaveOven {
 }
 
 let oven = MicrowaveOven()
-oven.setWatt(watt: )
-oven.setTime(time: 5)
+oven.setWatt(watt: .watt_800)
+oven.setTime(time: 30)
 oven.start()
-
+oven.isOpen
 
