@@ -7,8 +7,8 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 class ElectricKettle {
     
     var timer: Timer?
-    var temperature: Int = 100
-    var count: Int = 0
+    let limitTemperature: Int = 100
+    var waterTemperature: Int = 0
     
     let limit: Int = 1000 // ml
     var water: Int? = nil
@@ -18,26 +18,23 @@ class ElectricKettle {
     }
     
     @objc func countup() {
-        count += 5
-        print("\(count)度です")
+        waterTemperature += 5
+        print("\(waterTemperature)度です")
         
-        if temperature <=  count{
+        if limitTemperature <=  waterTemperature {
             print("沸騰しました。")
             timer?.invalidate()
         }
     }
     func waterLimit(water: Int) {
-          water <= limit
-            print("\(water)ml入れました。")
+        water <= limit
+        print("\(water)ml入れました。")
     }
     
-    
-    func Temperature() {
-        
-    }
 }
 
-    let kettle = ElectricKettle()
+let kettle = ElectricKettle()
 
 kettle.start()
 kettle.waterLimit(water: 1000)
+
