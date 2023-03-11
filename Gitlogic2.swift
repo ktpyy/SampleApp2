@@ -11,30 +11,60 @@ class ElectricKettle {
     var waterTemperature: Int = 0
     
     let limit: Int = 1000 // ml
-    var water: Int? = nil
+    var water: Int = 0
+    
+    enum WaterStatus {
+        case empty, withinLimit, moreThanLimit
+    }
+    
+    var kettleExists = false {
+        didSet {
+            water = 0
+            print("取り外されました。")
+            timer?.invalidate()
+        }
+    }
     
     func start() {
-        timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(countup), userInfo: nil, repeats: true)
+        let status = getWaterStatus(water: water)
+        switch status {
+        case .empty:
+            print("水が入っていません。")
+        case .withinLimit:
+            timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(countup), userInfo: nil, repeats: true)
+            print("\(water)ml入れました。")
+        case .moreThanLimit:
+            print("規定量を超えました。")
+        }
     }
     
     @objc func countup() {
         waterTemperature += 5
         print("\(waterTemperature)度です")
-        
         if limitTemperature <=  waterTemperature {
             print("沸騰しました。")
             timer?.invalidate()
         }
     }
-    func waterLimit(water: Int) {
-        water <= limit
-        print("\(water)ml入れました。")
-    }
     
+    func getWaterStatus(water: Int) -> WaterStatus {
+        if water <= 0 {
+            return .empty
+        } else if water <= limit {
+            return .withinLimit
+        } else {
+            return .moreThanLimit
+        }
+    }
 }
 
-let kettle = ElectricKettle()
 
+let kettle = ElectricKettle()
+kettle.water = 800
 kettle.start()
-kettle.waterLimit(water: 1000)
+
+DispatchQueue.main.asyncAfter(deadline: .now() + 14) {
+    kettle.kettleExists = false
+}
+
 
