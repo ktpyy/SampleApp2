@@ -17,7 +17,7 @@ class ElectricKettle {
         case empty, withinLimit, moreThanLimit
     }
     
-    var kettleRemove = false {
+    var kettleExists = false {
         didSet {
             water = 0
             print("取り外されました。")
@@ -58,12 +58,12 @@ class ElectricKettle {
     }
 }
 
+
 let kettle = ElectricKettle()
 kettle.water = 800
 kettle.start()
 
 DispatchQueue.main.asyncAfter(deadline: .now() + 14) {
-    kettle.kettleRemove
+    kettle.kettleExists = true
 }
-
 
