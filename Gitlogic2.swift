@@ -64,6 +64,7 @@ kettle.water = 800
 kettle.start()
 
 DispatchQueue.main.asyncAfter(deadline: .now() + 14) {
-    kettle.kettleExists = true
+    kettle.kettleExists = false
 }
+
 
